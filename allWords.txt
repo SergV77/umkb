@@ -1,0 +1,75 @@
+{'alerts': {'code': '200', 'title': 'OK', 'message': 'Запрос выполнен успешно. Общее кол-во белонов: 6', 'level': None, 'sticky': False}, 
+
+'graph': [
+{'id': 67020025, 'type': 1, 'nodetype': 1, 'deep': 0, 'parent_id': 67010025, 'level': 184, 'route': 1, 'ida': 0, 'levela': 0, 'idb': 0, 'levelb': 0, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.5, 'sort': 1305}, 
+{'id': 69960105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 67020025, 'levela': 184, 'idb': 6080025, 'levelb': 920, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': None, 'sort': 2}, 
+{'id': 69970105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 67020025, 'levela': 184, 'idb': 416000025, 'levelb': 920, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': None, 'sort': 3}, 
+{'id': 69980105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 67020025, 'levela': 184, 'idb': 66490025, 'levelb': 920, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': None, 'sort': 4}, 
+{'id': 69950105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 67020025, 'levela': 184, 'idb': 187810025, 'levelb': 920, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': None, 'sort': 1}, 
+{'id': 107320105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 67020025, 'levela': 184, 'idb': 430580025, 'levelb': 1102, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.75, 'sort': 5}
+], 
+
+'names': {'67020025': 'крапивница', '67010025': 'крапивница и эритема', '6080025': 'отек', '416000025': 'ощущение распирания', '66490025': 'зуд', '187810025': 'волдырь', '430580025': 'повышение концентрации мочевой кислоты в крови'}, 
+
+'levels': {'184': 'Заболевание/Синдром', '1502': 'Причинно-следственная связь (Клиническая картина, проявления заболевания)', '920': 'Патологический признак', '1102': 'Патологический признак _Т20'}, 
+
+'keygraph': {'67020025': 0, '69960105': 1, '69970105': 2, '69980105': 3, '69950105': 4, '107320105': 5}}
+Конец запросов в UMKB
+
+
+{'alerts': {'code': '200', 'title': 'OK', 'message': 'Запрос выполнен успешно. Общее кол-во белонов: 23', 'level': None, 'sticky': False},
+
+'graph': [
+
+{'id': 32420025, 'type': 1, 'nodetype': 1, 'deep': 0, 'parent_id': 356630025, 'level': 184, 'route': 1, 'ida': 0, 'levela': 0, 'idb': 0, 'levelb': 0, 'value_a': 0.66, 'value_b': None, 'value_c': None, 'value_d': 0.5, 'sort': 31}, 
+
+{'id': 165640105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': 165570105, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 494430025, 'levelb': 920, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 9}, 
+
+{'id': 165650105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 318860025, 'levelb': 1102, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 2}, 
+
+{'id': 165660105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 381980025, 'levelb': 1102, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 5}, 
+
+{'id': 165670105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 391780025, 'levelb': 920, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.5, 'sort': 8}, 
+
+{'id': 165600105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 304570025, 'levelb': 1104, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 11}, 
+
+{'id': 165610105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': 165570105, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 140910025, 'levelb': 1102, 'value_a': 0.82, 'value_b': None, 'value_c': None, 'value_d': None, 'sort': 8}, 
+
+{'id': 165620105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 143360025, 'levelb': 1102, 'value_a': 0.17, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 12}, 
+
+{'id': 165630105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 143370025, 'levelb': 1102, 'value_a': 0.17, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 13}, 
+
+{'id': 165680105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 14130025, 'levelb': 920, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 9}, 
+
+{'id': 165480105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': 165610105, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 67020025, 'levelb': 184, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 8}, 
+
+{'id': 165490105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': 165610105, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 181200025, 'levelb': 920, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 9}, 
+
+{'id': 165510105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': 165570105, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 346690025, 'levelb': 920, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.5, 'sort': 10}, 
+
+{'id': 165460105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 270025, 'levelb': 1102, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 8}, 
+
+{'id': 165470105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': 165570105, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 143720025, 'levelb': 1102, 'value_a': 0.82, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 7}, 
+
+{'id': 165560105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': 165540105, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 2370025, 'levelb': 920, 'value_a': 0.17, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 4}, 
+
+{'id': 165570105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 395770025, 'levelb': 920, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 6}, 
+
+{'id': 165580105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 2050025, 'levelb': 920, 'value_a': 0.17, 'value_b': None, 'value_c': None, 'value_d': 0.0, 'sort': 7}, 
+
+{'id': 165590105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 1390025, 'levelb': 920, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.0, 'sort': 6}, 
+
+{'id': 165520105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 2030025, 'levelb': 920, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.0, 'sort': 1}, 
+
+{'id': 165530105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 124070025, 'levelb': 1102, 'value_a': 0.5, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 2}, 
+
+{'id': 165540105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': None, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 1240077, 'levelb': 13, 'value_a': 0.17, 'value_b': None, 'value_c': None, 'value_d': None, 'sort': 3}, 
+
+{'id': 165550105, 'type': 0, 'nodetype': 0, 'deep': 1, 'parent_id': 165540105, 'level': 1502, 'route': 1, 'ida': 32420025, 'levela': 184, 'idb': 2610025, 'levelb': 920, 'value_a': 0.17, 'value_b': None, 'value_c': None, 'value_d': 0.25, 'sort': 5}], 
+
+'names': {'32420025': 'стронгилоидоз', '356630025': 'нематодозы', '494430025': 'гиперэозинофилия', '318860025': 'лейкоцитоз', '381980025': 'повышение уровня СОЭ в крови', '391780025': 'тяжелая анемия', '304570025': 'гипертермия субфебрильная', '140910025': 'высыпания на коже', '143360025': 'гепатомегалия', '143370025': 'спленомегалия', '14130025': 'кахексия', '67020025': 'крапивница', '181200025': 'папулезные высыпания', '346690025': 'инфильтрат эозинофильный', '270025': 'повышение температуры тела', '143720025': 'кожный зуд', '2370025': 'диарея', '395770025': 'аллергические реакции', '2050025': 'рвота', '1390025': 'слабость общая', '2030025': 'тошнота', '124070025': 'боль в эпигастральной области', '1240077': 'группировка признаков с условием - И', '2610025': 'запор'}, 
+
+'levels': {'184': 'Заболевание/Синдром', '1502': 'Причинно-следственная связь (Клиническая картина, проявления заболевания)', '920': 'Патологический признак', '1102': 'Патологический признак _Т20', '1104': 'Патологический признак_Т40', '13': 'Группа элементов и/или условия сочетания'}, 
+
+'keygraph': {'32420025': 0, '165640105': 1, '165650105': 2, '165660105': 3, '165670105': 4, '165600105': 5, '165610105': 6, '165620105': 7, '165630105': 8, '165680105': 9, '165480105': 10, '165490105': 11, '165510105': 12, '165460105': 13, '165470105': 14, '165560105': 15, '165570105': 16, '165580105': 17, '165590105': 18, '165520105': 19, '165530105': 20, '165540105': 21, '165550105': 22}}
+Конец запросов в UMKB
