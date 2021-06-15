@@ -36,3 +36,19 @@ print(extract_list(lst))
 # test = list(set(test))
 # print(test)
 # print(len(test))
+#
+# for symptom_i in symptoms:
+#     if type(symptom_i[2]) == list:
+#         for symptom_j in symptom_i[2]:
+#             for symptom_z in symptoms:
+#                 if symptom_i[0] == symptom_z[0]:
+#                     if symptom_j == symptom_z[2]:
+#                         del symptom_i[3][symptom_i[2].index(symptom_j)]
+#                         del symptom_i[2][symptom_i[2].index(symptom_j)]
+#
+#
+# for sym in symptoms_2:
+#     for sym2 in symptoms_2:
+#         if (sym[0] == sym2[0]):
+#             if (sym[2] == sym2[2]):
+#                 del symptoms_2[symptoms_2.index(sym2)]
