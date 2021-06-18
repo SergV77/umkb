@@ -50,43 +50,59 @@ print('Начало запросов в UMKB')
 nosology = [int(id)*10000 + _lib for id in nosology]
 print(f'Загружено {len(nosology)} id концептов')
 
-
-param = {'key': '6a1eb6fa9dd973ac',
+all_symptoms = []
+for el in  nosology:
+    symptoms = []
+    param = {'key': '6a1eb6fa9dd973ac',
          'lib': [_lib],
          'level': 1502,
          'deep': 10,
-         'libid': nosology,
+         'libid': [el],
          'route': 0,
          }
 
 # nat_json = json.dumps(param)
 # headers = {'Content-type': 'application/json'}
 
-response = requests.post(url, param)
-outs = response.json()
-symptoms = outs['graph']
-symptoms_names = outs['names']
+    response = requests.post(url, param)
+    outs = response.json()
+    symptoms = outs['graph']
+    all_symptoms.append(symptoms)
+
+
+
+#symptoms_names = outs['names']
 
 print('Конец запросов в UMKB')
 print('*'*100)
-print(f'Получено {len(symptoms)} признаков' )
-print(f'Получено {len(symptoms_names)} наименований признаков' )
+print(f'Получено {len(all_symptoms)} признаков' )
+# print(f'Получено {len(symptoms_names)} наименований признаков' )
 
 
-fieldnames = ['id', 'type', 'nodetype', 'deep', 'parent_id', 'level', 'route', 'ida', 'levela', 'idb', 'levelb',
-              'value_a', 'value_b', 'value_c', 'value_d', 'sort']
-with open('db/dataset_black/disease_symptoms2.csv', mode='w', encoding='utf-8', newline='') as file:
-    file_writer = csv.DictWriter(file, delimiter=',', fieldnames=fieldnames)
-    file_writer.writeheader()
-    for el in symptoms:
-        file_writer.writerow(el)
+
+with open('db/dataset_black/disease_symptoms3.csv', mode='w', encoding='utf-8') as file:
+    file_writer = csv.writer(file)
+    for symptom in all_symptoms:
+        file_writer.writerow(symptom)
+
+print('Конец работы')
 
 
-with open('db/dataset_black/disease_symptoms_names2.csv', mode='w', encoding='utf-8', newline='') as file:
-    file_writer = csv.writer(file, delimiter=',', lineterminator='\n')
-    file_writer.writerow(['id_symptoms', 'name_symptoms'])
-    for key, value in symptoms_names.items():
-        file_writer.writerow([key, value])
+# #
+# fieldnames = ['id', 'type', 'nodetype', 'deep', 'parent_id', 'level', 'route', 'ida', 'levela', 'idb', 'levelb',
+#               'value_a', 'value_b', 'value_c', 'value_d', 'sort']
+# with open('db/dataset_black/disease_symptoms3.csv', mode='w', encoding='utf-8', newline='') as file:
+#     file_writer = csv.DictWriter(file, delimiter=',', fieldnames=fieldnames)
+#     file_writer.writeheader()
+#     for el in all_symptoms:
+#         file_writer.writerow(el)
+
+
+# with open('db/dataset_black/syndrome_symptoms_names.csv', mode='w', encoding='utf-8', newline='') as file:
+#     file_writer = csv.writer(file, delimiter=',', lineterminator='\n')
+#     file_writer.writerow(['id_symptoms', 'name_symptoms'])
+#     for key, value in symptoms_names.items():
+#         file_writer.writerow([key, value])
 
 
 
