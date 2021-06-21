@@ -23,7 +23,7 @@ dis_sym_names['name_symptoms']
 #Загрузка данных с файлов
 #Симптомы по заболеваниям
 #dis_sym_names = open_file('db/dataset_black/disease_symptoms_names.csv')
-dis_sym_all = open_file('db/dataset_black/disease_symptoms2.csv')
+dis_sym_all = open_file('db/dataset_black/disease_symptoms.csv')
 dis_group_sym_all = open_file('db/dataset_black/disease_group_symptoms.csv')
 dis_syn_sym_all = open_file('db/dataset_black/disease_syndrome_symptoms.csv')
 syn_sym_all = open_file('db/dataset_black/syndrome_symptoms.csv')
@@ -75,10 +75,43 @@ len_diag = len(diagnosis)
 #Проверка количества пройденных запросов
 #Заболеваний
 count_diag = countRequest(diagnosis, dis_sym_all)
-print(count_diag['Вложения'])
-for k, v in count_diag['Вложения'].items():
-    print(len(v))
-#
+
+deep = {int(sym[3]) for sym in dis_sym_all[count_diag+1:]}
+# print(deep)
+# print(len(deep))
+
+
+big_block = []
+for i in deep:
+    temp_list = []
+    for sym in dis_sym_all[count_diag:]:
+        if int(sym[3]) == int(i):
+            temp_list.append(sym)
+
+    if len(temp_list) > 0:
+        big_block.append((i, get_block(temp_list)))
+
+
+count = 0
+for el in big_block:
+    print(el[0])
+    count_k = 0
+    count_v = 0
+    for k, v in el[1].items():
+        count += len(v)
+        count_k += 1
+        count_v += len(v)
+        print(k, ' - ', v)
+        print('Количество симптомов - ', len(v))
+        print('~'*550)
+    print('~' * 550)
+    print('Количество диагнозов на уровне ', count_k)
+    print('Количество симптомов на уровне ', count_v)
+    print('~' * 550)
+
+
+print(len(big_block), count)
+
 # #Групп заболеваний
 # count_group_diag = countRequest(group_diagnosis, dis_group_sym_all)
 # print(count_group_diag)
@@ -91,29 +124,30 @@ for k, v in count_diag['Вложения'].items():
 # count_syn = countRequest(syndroms, syn_sym_all)
 # print(count_syn)
 
-
-groupDiagnosis = prepareGroup(dis_sym_all)
-print(groupDiagnosis)
-for k, v in groupDiagnosis.items():
-    print(v)
-
-new_dict = {}
-for key, value in groupDiagnosis.items():
-    block_temp = []
-    for e in value:
-       block_temp.append(makeGroupSymptoms(e, dis_sym_all))
-    new_dict[key] = block_temp
-
-
-
-
+#
+# groupDiagnosis = prepareGroup(dis_sym_all)
+# print(groupDiagnosis)
+# for k, v in groupDiagnosis.items():
+#     print(v)
+#
+# new_dict = {}
+# for key, value in groupDiagnosis.items():
+#     block_temp = []
+#     for e in value:
+#        block_temp.append(makeGroupSymptoms(e, dis_sym_all))
+#     new_dict[key] = block_temp
+#
+#
+#
+#
 #Сохранение готового датасета
 with open('test.csv', mode='a', encoding='utf-8', newline='') as file:
     file_writer = csv.writer(file, delimiter=',', lineterminator='\n')
-    file_writer.writerow(['id_diagnosis', 'id_symptoms'])
-    for key, value in new_dict.items():
-        for el in value:
-            file_writer.writerow([key, el])
+    file_writer.writerow(['id_diagnosis', 'id_symptoms', 'weight', 'deep'])
+    for el in big_block:
+        for key, value in el[1].items():
+            for val in value:
+                file_writer.writerow([key, *(val), el[0]])
 
 
 
