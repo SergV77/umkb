@@ -46,3 +46,63 @@ def clean_word(item):
         if p in item:
             item = item.replace(p, '')
     return item.strip()
+
+#Рассчет количества заболеваний - синдромов - симптомов
+def getGroupSynonims(file, base):
+    return [(int(el[0]) * 10000 + 25, [*get_name_with_base(int(el[0]), base)]) for el in file]
+
+#Проверка количества пройденных запросов
+def countRequest(item, symtoms):
+    count = 0
+    big_block = {}
+    info_diag = []
+    for diag in item:
+        for sym in symtoms:
+            if int(diag[0]) == int(sym[0]):
+                if sym[3] == '0':
+                    count += 1
+
+
+    for sym in symtoms:
+        block = []
+        for el in symtoms:
+            if sym[0] == el[7]:
+                block.append(el[0])
+                info_diag.append(el)
+
+        if len(block) > 0:
+            big_block[sym[0]] = block
+
+    return {'Количество обработанных запросов ': count, 'Количество запросов c вложениями': len(big_block), 'Вложения': big_block}
+
+def prepareGroup(base):
+    big_block = {}
+    for el in base:
+        block_idb = []
+        if el[3] == '0':
+            for sym in base:
+                if sym[3] == '1':
+                    if el[0] == sym[7]:
+                        block_idb.append(sym[9])
+                if len(block_idb) > 0:
+                    big_block[el[0]] = block_idb
+
+    return big_block
+
+def makeGroupSymptoms(item, base):
+    group_sym = [makeGroupSymptoms(sym[9], base) for sym in base if item == sym[7]]
+    if len(group_sym) > 0:
+        return group_sym
+    else:
+        return item
+
+#
+# def makeGroupSymptoms(item, base):
+#     group_sym = []
+#     for sym in base:
+#         if item == sym[7]:
+#             group_sym.append(makeGroupSymptoms(sym[9], base))
+#     if len(group_sym) > 0:
+#         return group_sym
+#     else:
+#         return item

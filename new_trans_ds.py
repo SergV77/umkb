@@ -22,73 +22,127 @@ dis_sym_names['name_symptoms']
 
 #Загрузка данных с файлов
 #Симптомы по заболеваниям
-dis_sym_names = open_file('db/dataset_black/disease_symptoms_names.csv')
-dis_sym_all = open_file('db/dataset_black/disease_symptoms.csv')
+#dis_sym_names = open_file('db/dataset_black/disease_symptoms_names.csv')
+dis_sym_all = open_file('db/dataset_black/disease_symptoms2.csv')
+dis_group_sym_all = open_file('db/dataset_black/disease_group_symptoms.csv')
+dis_syn_sym_all = open_file('db/dataset_black/disease_syndrome_symptoms.csv')
+syn_sym_all = open_file('db/dataset_black/syndrome_symptoms.csv')
+
+
 #Заболевания
 dis_sym_dis = open_file('db/diag_syn_sym_id/disease.csv')
+dis_group = open_file('db/diag_syn_sym_id/disease_group.csv')
+dis_syn = open_file('db/diag_syn_sym_id/disease_syndrome.csv')
+syn = open_file('db/diag_syn_sym_id/syndrome.csv')
+sym = open_file('db/diag_syn_sym_id/symptoms.csv')
 base_25lib = open_file('db/diag_syn_sym_names/conceptLib25.csv')
 
 
 """ Сделано по заболеваниям"""
-diagnosis = []
-for el in dis_sym_dis:
-    diagnosis.append(( int(el[0]) * 10000 + 25, [*get_name_with_base(int(el[0]), base_25lib)] ))
 
-# for el in diagnosis:
-#     print(el)
+#Заболеваний
+diagnosis = getGroupSynonims(dis_sym_dis, base_25lib)
+print('Количество заболеваний -', len(diagnosis))
+len_diag = len(diagnosis)
+#
+# #Групп заболеваний
+# group_diagnosis = getGroupSynonims(dis_group, base_25lib)
+# print('Количество групп заболеваний -', len(group_diagnosis))
+# len_gr_diag = len(group_diagnosis)
+#
+# #Заболеваний-синдромов
+# diagnosis_syndroms = getGroupSynonims(dis_syn, base_25lib)
+# print('Количество заболеваний синдромов -', len(diagnosis_syndroms))
+# len_dig_syn = len(diagnosis_syndroms)
+#
+# #Синдромов
+# syndroms = getGroupSynonims(syn, base_25lib)
+# print('Количество синдромов -', len(syndroms))
+# len_syn = len(syndroms)
+#
+# #Симптомов
+# # symptoms = getGroupSynonims(sym, base_25lib)
+# # print('Количество симптомов -', len(symptoms))
+# # len_sym = len(symptoms)
 
-print(len(diagnosis))
 
 
 """
 В процессе по симптомам
 """
+
+
 #Проверка количества пройденных запросов
-count = 0
-for diag in diagnosis:
-    for sym in dis_sym_all:
-        if int(diag[0]) == int(sym[0]):
-            if sym[3] == '0':
-                count +=1
-print('Количество пройденных запросов - ', count)
-
-big_block = {}
-info_diag = []
-for sym in dis_sym_all:
-    block = []
-    for el in dis_sym_all:
-        if sym[0] == el[7]:
-            block.append(el[0])
-            info_diag.append(el)
-
-    if len(block) > 0:
-        big_block[sym[0]] = block
+#Заболеваний
+count_diag = countRequest(diagnosis, dis_sym_all)
+print(count_diag['Вложения'])
+for k, v in count_diag['Вложения'].items():
+    print(len(v))
+#
+# #Групп заболеваний
+# count_group_diag = countRequest(group_diagnosis, dis_group_sym_all)
+# print(count_group_diag)
+#
+# #Заболеваний-синдромов
+# count_diag_syn = countRequest(diagnosis_syndroms, dis_syn_sym_all)
+# print(count_diag_syn)
+#
+# #Синдромов
+# count_syn = countRequest(syndroms, syn_sym_all)
+# print(count_syn)
 
 
-def collection_symptoms(item):
-    result = []
-    for el in dis_sym_all:
-        if item == el[7]:
-            result.append(collection_symptoms(el[9]))
+groupDiagnosis = prepareGroup(dis_sym_all)
+print(groupDiagnosis)
+for k, v in groupDiagnosis.items():
+    print(v)
 
-    if len(result) != 0:
-        return result
-    else:
-        return item
-
-sym_dict = {}
-for sym in dis_sym_all:
-    ida = []
-    if int(sym[3]) == 0:
-        for el in dis_sym_all:
-            if sym[0] == el[7]:
-                ida.append(collection_symptoms(el[9]))
-        sym_dict[sym[0]] = ida
+new_dict = {}
+for key, value in groupDiagnosis.items():
+    block_temp = []
+    for e in value:
+       block_temp.append(makeGroupSymptoms(e, dis_sym_all))
+    new_dict[key] = block_temp
 
 
 
 
-print(sym_dict)
+#Сохранение готового датасета
+with open('test.csv', mode='a', encoding='utf-8', newline='') as file:
+    file_writer = csv.writer(file, delimiter=',', lineterminator='\n')
+    file_writer.writerow(['id_diagnosis', 'id_symptoms'])
+    for key, value in new_dict.items():
+        for el in value:
+            file_writer.writerow([key, el])
+
+
+
+
+#
+# def collection_symptoms(item):
+#     result = []
+#     for el in dis_sym_all:
+#         if item == el[7]:
+#             result.append(collection_symptoms(el[9]))
+#
+#     if len(result) != 0:
+#         return result
+#     else:
+#         return item
+#
+# sym_dict = {}
+# for sym in dis_sym_all:
+#     ida = []
+#     if int(sym[3]) == 0:
+#         for el in dis_sym_all:
+#             if sym[0] == el[7]:
+#                 ida.append(collection_symptoms(el[9]))
+#         sym_dict[sym[0]] = ida
+#
+
+
+#
+# print(sym_dict)
 
 # def collection_symptoms(item):
 #     result = {}
@@ -106,9 +160,9 @@ print(sym_dict)
 #     print(k, ' - ', v)
 # print(len(big_block))
 #
-print(big_block)
-for el in info_diag:
-    print(el)
+# print(big_block)
+# for el in info_diag:
+#     print(el)
 
 
 # def get_big_id(id):
@@ -133,14 +187,66 @@ for el in info_diag:
 # for el in dis_sym_names[0]:
 #     print(dis_sym_all)
 
-fieldnames=['id_diagnosis', 'name_diagnosis', 'id_symptoms', 'name_symptoms']
+# fieldnames=['id_diagnosis', 'name_diagnosis', 'id_symptoms', 'name_symptoms']
 
 
 #
 # for el in dis_sym_names:
 #     print(el)
 # print(len(dis_sym_names))
+#
+# def makeGroupSymptoms(item, base):
+#     group_sym = []
+#     for sym in base:
+#         if item == sym[7]:
+#             group_sym.append(makeGroupSymptoms(sym[9], base))
+#     return group_sym
+#
+#
+# def prepareGroup(base):
+#     big_block = {}
+#     for el in base:
+#         block_idb = []
+#         if el[3] == '0':
+#             for sym in base:
+#                 if sym[3] == '1':
+#                     if el[0] == sym[7]:
+#                         block_idb.append(sym[9])
+#             if len(block_idb) > 0:
+#                 block_temp = []
+#                 for e in block_idb:
+#                     concept = makeGroupSymptoms(e, base)
+#                     if len(concept) != 0:
+#                         block_temp.append(concept)
+#                     else:
+#                         block_temp.append(e)
+#                 big_block[el[0]] = block_temp
+#
+#     return big_block
+#
+#
+# print(prepareGroup(dis_sym_all))
 
+
+
+#
+# big_block = {}
+# for el in dis_sym_all:
+#     block_idb = []
+#     if el[3] == '0':
+#         for sym in dis_sym_all:
+#             if sym[3] == '1':
+#                 if el[0] == sym[7]:
+#                     block_idb.append(sym[9])
+#             for el in block_idb:
+#                 small_block = []
+#                 for sym in dis_sym_all:
+#                     if el == sym[7]:
+#                         small_block.append(sym[9])
+#                 block_temp.append(small_block)
+#             big_block[el[0]] = block_idb
+#
+# print(big_block)
 
 """
 #Проверка названий и id симптомов и заболеваний на совпадение
