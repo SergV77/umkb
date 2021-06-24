@@ -29,6 +29,12 @@ def save_dataset(name, dataset, fieldnames=['id_diagnosis', 'name_diagnosis', 'i
 def get_name_with_base(id, base):
     return ((el[5], el[3]) for el in base if id == int(el[2]))
 
+#Удаляем не нужные символы
+def clean_word(item):
+    for p in string.punctuation:
+        if p in item:
+            item = item.replace(p, '')
+    return item.strip()
 
 #Раскрываем вложенные списки до первого уровня
 def extract_list(item):
@@ -40,12 +46,12 @@ def extract_list(item):
             res += [el]
     return res
 
-#Удаляем не нужные символы
-def clean_word(item):
-    for p in string.punctuation:
-        if p in item:
-            item = item.replace(p, '')
-    return item.strip()
+#Раскрываем вложенные списки до первого уровня
+def summ_list(item):
+    return round(sum(float(el) ** 2 for el in item if el != '') / len(item), 4)
+
+
+
 
 #Рассчет количества заболеваний - синдромов - симптомов
 def getGroupSynonims(file, base):
@@ -61,19 +67,73 @@ def countRequest(item, symtoms):
                     count += 1
     return count
 
-def get_block(symtoms):
-    big_block = {}
-    temp_dict = list({sym[7] for sym in symtoms})
-    for el in temp_dict:
-        block = []
-        for sym in symtoms:
-            if el == sym[7]:
-                block.append((sym[9], sym[11]))
-        big_block[el] = block
+def getDisease(base):
+    big_block = []
+    for el in base:
+        if el[3] != '0':
+            big_block.append([el[7], el[9], el[11]])
 
     return big_block
 
 
+# Свертка симптомов с последнего уровня на первый
+def getSymptos(base):
+    parant_list = []
+    child_list = []
+    temp_list = []
+    weight = []
+    temp_weight = []
+
+    for el in base:
+        if el[0] not in child_list:
+            temp_list.append(el)
+            parant_list.append(el[0])
+            child_list.append(el[1])
+            weight.append(el[2])
+        else:
+            temp_weight.append(el[2])
+            temp_weight.append(weight[child_list.index(el[0])])
+            el[0] = parant_list[child_list.index(el[0])]
+            el[2] = summ_list(extract_list(temp_weight))
+            temp_list.append(el)
+            child_list.append(el[1])
+            parant_list.append(el[0])
+            weight.append(el[2])
+            temp_weight = []
+
+    return temp_list
+
+def getNameDys(_id, items):
+    name = ''
+    for el in items:
+        if _id == str(el[0]):
+            name = el[1][0][0]
+    return name
+
+
+def getNameSym(_id, base_names):
+    name = ''
+    for el in base_names:
+        if _id == el[0]:
+            name = el[1]
+    return name
+
+
+def getNamesResult(base_id, base_names, items):
+    result = []
+    for _id in base_id:
+        name1 = getNameDys(_id[0], items)
+        name2 = getNameSym(_id[1], base_names)
+        result.append([_id[0], name1, _id[1], name2, _id[2]])
+
+    return result
+
+def makeGroupSymptoms(item, base):
+    group_sym = []
+    for sym in base:
+        if item == sym[7]:
+            group_sym.append(makeGroupSymptoms(sym[9], base))
+    return group_sym
 
 def prepareGroup(base):
     big_block = {}
@@ -83,63 +143,18 @@ def prepareGroup(base):
             for sym in base:
                 if sym[3] == '1':
                     if el[0] == sym[7]:
-                        block_idb.append((sym[9], sym[11]))
-                if len(block_idb) > 0:
-                    big_block[el[0]] = block_idb
+                        block_idb.append(sym[9])
+            if len(block_idb) > 0:
+                block_temp = []
+                for e in block_idb:
+                    concept = makeGroupSymptoms(e, base)
+                    if len(concept) != 0:
+                        block_temp.append(concept)
+                    else:
+                        block_temp.append(e)
+                big_block[el[0]] = block_temp
 
     return big_block
 
 
-# def makeGroupSymptoms(item, base):
-#     group_sym = [makeGroupSymptoms(sym[9], base) for sym in base if item == sym[7]]
-#     if len(group_sym) > 0:
-#         return group_sym
-#     else:
-#         return item
 
-#
-def makeGroupSymptoms(item, base):
-    group_sym = []
-    for sym in base:
-        if item == sym[7]:
-            group_sym.append(makeGroupSymptoms(sym[9], base[base.index(sym):]))
-    if len(group_sym) > 0:
-        return group_sym
-    else:
-        return item
-#
-# def prepareGroup(base):
-#     big_block = {}
-#     for el in base:
-#         block_idb = []
-#         while el[3] == '0':
-#             for sym in base:
-#                 while sym[3] == '1':
-#                     if el[0] == sym[7]:
-#                         block_idb.append(sym[9])
-#                 if len(block_idb) > 0:
-#                     big_block[el[0]] = block_idb
-#
-#     return big_block
-#
-# def get_block(symtoms):
-#     big_block = {}
-#     temp_dict = list({sym[7] for sym in symtoms})
-#
-#     for el in temp_dict:
-#         block = []
-#         for sym in symtoms:
-#             print('1 - ', el)
-#             print('2 - ', sym)
-#             print('4 - ', int(sym[7]))
-#             if el == int(sym[7]):
-#                 print('3 - ', sym)
-#                 block.append((el[9], el[11]))
-#                 print(block)
-#         if len(block) > 0:
-#             print('4 - ', block)
-#             big_block[el] = block
-#             print('5 - ', big_block)
-#
-#     return big_block
-#
