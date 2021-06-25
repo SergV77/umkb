@@ -51,8 +51,6 @@ def summ_list(item):
     return round(sum(float(el) ** 2 for el in item if el != '') / len(item), 4)
 
 
-
-
 #Рассчет количества заболеваний - синдромов - симптомов
 def getGroupSynonims(file, base):
     return [(int(el[0]) * 10000 + 25, [*get_name_with_base(int(el[0]), base)]) for el in file]
@@ -67,11 +65,39 @@ def countRequest(item, symtoms):
                     count += 1
     return count
 
+#Расссчет результатов загрузки
+def calculat(base, count):
+    big_block = {}
+    for el in base:
+        block_idb = []
+        if el[3] == '0':
+            for sym in base:
+                if sym[3] == '1':
+                    if el[0] == sym[7]:
+                        block_idb.append(sym[9])
+                if len(block_idb) > 0:
+                    big_block[el[0]] = block_idb
+
+    count_k = 0
+    count_v = 0
+    for k, v in big_block.items():
+        count_k += 1
+        count_v += len(v)
+        #print(k, ' - ', v)
+        #print('Количество непосредственных симптомов - ', len(v))
+    print('Общее количество диагнозов имеющих симптомы', count_k)
+    print('Общее количество диагнозов не имеющие симптомов', count - count_k)
+    print('Общее количество непосредственных симптомов', count_v)
+
+
+
+
+#Получение заболеваний (синдромов) и связанных с ними симптомов
 def getDisease(base):
     big_block = []
     for el in base:
         if el[3] != '0':
-            big_block.append([el[7], el[9], el[11]])
+            big_block.append([el[7], el[9], el[11], el[3]])
 
     return big_block
 
@@ -103,6 +129,7 @@ def getSymptos(base):
 
     return temp_list
 
+#Получение название заболевания
 def getNameDys(_id, items):
     name = ''
     for el in items:
@@ -110,7 +137,7 @@ def getNameDys(_id, items):
             name = el[1][0][0]
     return name
 
-
+#Получение название симптома
 def getNameSym(_id, base_names):
     name = ''
     for el in base_names:
@@ -118,16 +145,18 @@ def getNameSym(_id, base_names):
             name = el[1]
     return name
 
-
+#Получение название заболевания и симптомов
 def getNamesResult(base_id, base_names, items):
     result = []
     for _id in base_id:
-        name1 = getNameDys(_id[0], items)
-        name2 = getNameSym(_id[1], base_names)
-        result.append([_id[0], name1, _id[1], name2, _id[2]])
+        name1 = getNameDys(_id[0], items) #Получение название заболевания
+        name2 = getNameSym(_id[1], base_names) #Получение название симптома
+        result.append([_id[0], clean_word(name1), _id[1], clean_word(name2), _id[2]])
 
     return result
 
+
+#Функции в разработке
 def makeGroupSymptoms(item, base):
     group_sym = []
     for sym in base:
