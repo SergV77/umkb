@@ -68,15 +68,20 @@ def countRequest(item, symtoms):
 #Расссчет результатов загрузки
 def calculat(base, count):
     big_block = {}
+    big_list = {}
     for el in base:
         block_idb = []
+        block_ida = []
         if el[3] == '0':
             for sym in base:
                 if sym[3] == '1':
                     if el[0] == sym[7]:
                         block_idb.append(sym[9])
+                        block_ida.append(sym)
                 if len(block_idb) > 0:
                     big_block[el[0]] = block_idb
+                    big_list[el[0]] = block_ida
+
 
     count_k = 0
     count_v = 0
@@ -88,7 +93,7 @@ def calculat(base, count):
     print('Общее количество диагнозов имеющих симптомы', count_k)
     print('Общее количество диагнозов не имеющие симптомов', count - count_k)
     print('Общее количество непосредственных симптомов', count_v)
-
+    return big_block, big_list
 
 
 
@@ -129,6 +134,36 @@ def getSymptos(base):
 
     return temp_list
 
+def getSymptosMissed(base):
+    parant_list = []
+    child_list = []
+    temp_list = []
+    weight = []
+    temp_weight = []
+
+    for el in base:
+        if el[3] == "1":
+            if el[0] not in child_list:
+                temp_list.append(el)
+                parant_list.append(el[0])
+                child_list.append(el[1])
+                weight.append(el[2])
+        else:
+            if el[0] not in child_list:
+                continue
+            else:
+                temp_weight.append(el[2])
+                temp_weight.append(weight[child_list.index(el[0])])
+                el[0] = parant_list[child_list.index(el[0])]
+                el[2] = summ_list(extract_list(temp_weight))
+                temp_list.append(el)
+                child_list.append(el[1])
+                parant_list.append(el[0])
+                weight.append(el[2])
+                temp_weight = []
+
+    return temp_list
+
 #Получение название заболевания
 def getNameDys(_id, items):
     name = ''
@@ -155,6 +190,54 @@ def getNamesResult(base_id, base_names, items):
 
     return result
 
+
+def unicDis(base):
+    temp = []
+    for el in base:
+        if el[3] == '1':
+            temp.append(el[0])
+    return temp
+
+#Проверка на не учтенные id
+def tempMiised(base, base_id):
+    temp_missed = []
+    for el in set(base):
+        if el not in set(base_id):
+            temp_missed.append(el)
+    return temp_missed
+
+#Добавление не учтенных id
+def addMissedId(base, temp_missed):
+    temp = []
+    for el in getDisease(base):
+        if el[3] == '1':
+            if el[0] in temp_missed:
+                temp.append(el)
+        else:
+            temp.append(el)
+    return temp
+
+# удаление дублирующих симптомов
+# с сохранением среднего веса
+def delDoublName(base):
+    small_dict = {}
+    for el in base:
+        weight = []
+        for sym in base:
+            if el[0] == sym[0]:
+                if el[2] == sym[2]:
+                    weight.append(sym[4])
+        small_dict[(el[2], el[3])] = summ_list(weight)
+    return small_dict
+
+# Создание словаря заболевания - симптомы
+def makeDisSym(base):
+    big_dict = {}
+    for el in {(el[0], el[1]) for el in base}:
+        for sym in {(el[0], el[1]) for el in base}:
+            if el[0] == sym[0]:
+                big_dict[el] = delDoublName(base)
+    return big_dict
 
 #Функции в разработке
 def makeGroupSymptoms(item, base):
@@ -186,4 +269,60 @@ def prepareGroup(base):
     return big_block
 
 
+# Архив
+# # Свертка симптомов с последнего уровня на первый
+# def getSymptos(base):
+#     parant_list = []
+#     child_list = []
+#     temp_list = []
+#     weight = []
+#     temp_weight = []
+#
+#     for el in base:
+#         if el[0] not in child_list:
+#             temp_list.append(el)
+#             parant_list.append(el[0])
+#             child_list.append(el[1])
+#             weight.append(el[2])
+#         else:
+#             temp_weight.append(el[2])
+#             temp_weight.append(weight[child_list.index(el[0])])
+#             el[0] = parant_list[child_list.index(el[0])]
+#             el[2] = summ_list(extract_list(temp_weight))
+#             temp_list.append(el)
+#             child_list.append(el[1])
+#             parant_list.append(el[0])
+#             weight.append(el[2])
+#             temp_weight = []
+#
+#     return temp_list
 
+# def getSymptos(base):
+#     parant_list = []
+#     child_list = []
+#     temp_list = []
+#     weight = []
+#     temp_weight = []
+#
+#     for el in base:
+#         if el[3] == "1":
+#             if el[0] not in child_list:
+#                 temp_list.append(el)
+#                 parant_list.append(el[0])
+#                 child_list.append(el[1])
+#                 weight.append(el[2])
+#         else:
+#             if el[0] not in child_list:
+#                 continue
+#             else:
+#                 temp_weight.append(el[2])
+#                 temp_weight.append(weight[child_list.index(el[0])])
+#                 el[0] = parant_list[child_list.index(el[0])]
+#                 el[2] = summ_list(extract_list(temp_weight))
+#                 temp_list.append(el)
+#                 child_list.append(el[1])
+#                 parant_list.append(el[0])
+#                 weight.append(el[2])
+#                 temp_weight = []
+#
+#     return temp_list
