@@ -49,53 +49,47 @@ print('~' * 550)
 print('Получено: ')
 #Заболеваний
 #Получение синонимов заболеваний
-# diagnosis = getGroupSynonims(dis_sym_dis, base_25lib)
-# print('Количество заболеваний -', len(diagnosis))
-# len_diag = len(diagnosis)
-#
+diagnosis = getGroupSynonims(dis_sym_dis, base_25lib)
+print('Количество заболеваний -', len(diagnosis))
+len_diag = len(diagnosis)
+
 #Заболеваний-синдромов
 diagnosis_syndroms = getGroupSynonims(dis_syn, base_25lib)
 print('Количество заболеваний-синдромов -', len(diagnosis_syndroms))
 len_dig_syn = len(diagnosis_syndroms)
 
-# #Синдромов
-# syndroms = getGroupSynonims(syn, base_25lib)
-# print('Количество синдромов -', len(syndroms))
-# len_syn = len(syndroms)
+#Синдромов
+syndroms = getGroupSynonims(syn, base_25lib)
+print('Количество синдромов -', len(syndroms))
+len_syn = len(syndroms)
 
 #Симптомов
-# symptoms = getGroupSynonims(sym, base_25lib)
-# print('Количество симптомов -', len(symptoms))
-# len_sym = len(symptoms)
-
+symptoms = getGroupSynonims(sym, base_25lib)
+print('Количество симптомов -', len(symptoms))
+len_sym = len(symptoms)
 print('Проведение запросов на наличие симптомов')
-"""
-В процессе по симптомам
-"""
+
+"""Сделано по симптомам"""
 
 #####################################################################
 #Проверка количества пройденных запросов
 #Заболеваний
-# count_diag = countRequest(diagnosis, dis_sym_all)
-# dis_sym_temp = getDisease(dis_sym_all)
-# print(dis_sym_all)
-# dis_sym_id = getSymptos(dis_sym_temp)
-# print(f'Запрошено {count_diag} заболеваний')
-# calculat(dis_sym_all, count_diag)
-# print('~' * 550)
-# dis_sym_result = getNamesResult(dis_sym_id, dis_sym_names, diagnosis)
-# print('Количество строк - ', len(dis_sym_result))
-# temp_x = []
-# for el in dis_sym_result:
-#     temp_x.append(el[2])
-# print('Количество уникальных значений до обработки - ', len(set(temp_x)))
-
-# big_dict = makeDisSym(dis_sym_result)
-# for key, value in big_dict.items():
-#    print(key, ' - ', len(value), ' - ', value)
+count_diag = countRequest(diagnosis, dis_sym_all)
+dis_sym_temp = getDisease(dis_sym_all)
+print(dis_sym_all)
+dis_sym_id = getSymptos(dis_sym_temp)
+print(f'Запрошено {count_diag} заболеваний')
+calculat(dis_sym_all, count_diag)
+print('~' * 550)
+dis_sym_result = getNamesResult(dis_sym_id, dis_sym_names, diagnosis)
+print('Количество строк - ', len(dis_sym_result))
+temp_x = []
+for el in dis_sym_result:
+    temp_x.append(el[2])
+print('Количество уникальных значений до обработки - ', len(set(temp_x)))
+big_dict = makeDictNosology(dis_sym_result)
 
 
-#
 #Заболеваний-синдромов
 count_diag_syn = countRequest(diagnosis_syndroms, dis_syn_sym_all)
 print(f'Запрошено {count_diag_syn} заболеваний-синдромов')
@@ -109,10 +103,22 @@ add_dis_syn_sym = addMissedId(dis_syn_sym_all, temp_missed)
 dis_syn_sym_id_missed = getSymptosMissed(add_dis_syn_sym)
 dis_syn_sym_id += dis_syn_sym_id_missed
 dis_syn_sym_result = getNamesResult(dis_syn_sym_id, dis_syn_sym_names, diagnosis_syndroms)
-big_dict = makeDisSym(dis_syn_sym_result)
-
+temp_dict = makeDictNosology(dis_syn_sym_result)
 
 ###########################################################################################
+
+#Сохранение готового датасета
+with open('db/dataset_white/disease_syndrom_symptoms.csv', mode='a', encoding='utf-8', newline='') as file:
+    file_writer = csv.writer(file, delimiter=',', lineterminator='\n')
+    file_writer.writerow(['id_diagnosis', 'name_diagnosis', 'id_symptoms', 'name_symptoms', 'weight'])
+    for key, value in temp_dict.items():
+        for k, v in value.items():
+            file_writer.writerow([*(key), *(k), summ_list(v)])
+
+
+print(f'Датасет загружен')
+
+##################АРХИВНЫЕ ВЕРСИИ СКРИПТОВ#################################################
 ###########################################################################################
 # print(dis_syn_have_sym)
 # dis_syn_sym_temp = getDisease(dis_syn_have_sym)
@@ -175,16 +181,8 @@ big_dict = makeDisSym(dis_syn_sym_result)
 # syn_sym_result = getNamesResult(syn_sym_id, syn_sym_names, syndroms)
 
 
-#
-#Сохранение готового датасета
-with open('db/dataset_white/disease_syndrom_symptoms.csv', mode='a', encoding='utf-8', newline='') as file:
-    file_writer = csv.writer(file, delimiter=',', lineterminator='\n')
-    file_writer.writerow(['id_diagnosis', 'name_diagnosis', 'id_symptoms', 'name_symptoms', 'weight'])
-    for key, value in big_dict.items():
-        for k, v in value.items():
-            file_writer.writerow([*(key), *(k), v])
 
-print(f'Датасет загружен')
+
 
 #
 

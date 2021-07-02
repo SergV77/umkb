@@ -48,7 +48,7 @@ def extract_list(item):
 
 #Раскрываем вложенные списки до первого уровня
 def summ_list(item):
-    return round(sum(float(el) ** 2 for el in item if el != '') / len(item), 4)
+    return round(sum(float(el) ** 2 for el in item if el != '' and el != '-0.9' ) / len(item), 4)
 
 
 #Рассчет количества заболеваний - синдромов - симптомов
@@ -217,27 +217,52 @@ def addMissedId(base, temp_missed):
             temp.append(el)
     return temp
 
+#Группирует заболевания и убирает дублирующие симптомы
+#с сохранением весов
+def makeDictNosology(base):
+    temp_dict = {}
+    for el in base:
+        if (el[0], el[1]) not in temp_dict.keys():
+            temp_dict[(el[0], el[1])] = [(el[2], el[3], el[4])]
+        else:
+            temp_dict[(el[0], el[1])].append((el[2], el[3], el[4]))
+
+    for key, value in temp_dict.items():
+        small_dict = {}
+        for el in value:
+            if (el[0], el[1]) not in small_dict.keys():
+                small_dict[(el[0], el[1])] = [el[2]]
+            else:
+                small_dict[(el[0], el[1])].append(el[2])
+
+        temp_dict[key] = small_dict
+
+    return temp_dict
+
+
+
+
 # удаление дублирующих симптомов
 # с сохранением среднего веса
-def delDoublName(base):
-    small_dict = {}
-    for el in base:
-        weight = []
-        for sym in base:
-            if el[0] == sym[0]:
-                if el[2] == sym[2]:
-                    weight.append(sym[4])
-        small_dict[(el[2], el[3])] = summ_list(weight)
-    return small_dict
-
-# Создание словаря заболевания - симптомы
-def makeDisSym(base):
-    big_dict = {}
-    for el in {(el[0], el[1]) for el in base}:
-        for sym in {(el[0], el[1]) for el in base}:
-            if el[0] == sym[0]:
-                big_dict[el] = delDoublName(base)
-    return big_dict
+# def delDoublName(base):
+#     small_dict = {}
+#     for el in base:
+#         weight = []
+#         for sym in base:
+#             if el[0] == sym[0]:
+#                 if el[2] == sym[2]:
+#                     weight.append(sym[4])
+#         small_dict[(el[2], el[3])] = summ_list(weight)
+#     return small_dict
+#
+# # Создание словаря заболевания - симптомы
+# def makeDisSym(base):
+#     big_dict = {}
+#     for el in {(el[0], el[1]) for el in base}:
+#         for sym in {(el[0], el[1]) for el in base}:
+#             if el[0] == sym[0]:
+#                 big_dict[el] = delDoublName(base)
+#     return big_dict
 
 #Функции в разработке
 def makeGroupSymptoms(item, base):
