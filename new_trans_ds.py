@@ -108,7 +108,7 @@ temp_dict = makeDictNosology(dis_syn_sym_result)
 ###########################################################################################
 
 #Сохранение готового датасета
-with open('db/dataset_white/disease_syndrom_symptoms.csv', mode='a', encoding='utf-8', newline='') as file:
+with open('db/dataset_white/disease_syndrom_symptoms_mean.csv', mode='a', encoding='utf-8', newline='') as file:
     file_writer = csv.writer(file, delimiter=',', lineterminator='\n')
     file_writer.writerow(['id_diagnosis', 'name_diagnosis', 'id_symptoms', 'name_symptoms', 'weight'])
     for key, value in temp_dict.items():

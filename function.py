@@ -48,7 +48,8 @@ def extract_list(item):
 
 #Раскрываем вложенные списки до первого уровня
 def summ_list(item):
-    return round(sum(float(el) ** 2 for el in item if el != '' and el != '-0.9' ) / len(item), 4)
+    #return round(sum(float(el) ** 2 for el in item if el != '' and el != '-0.9' ) / len(item), 4)
+    return round(sum(float(el) for el in item if el != '' and el != '-0.9' ) / len(item), 4)
 
 
 #Рассчет количества заболеваний - синдромов - симптомов
